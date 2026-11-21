@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flowers For You</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .heart-click-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 84px;
+      height: 84px;
+      margin: 18px auto 0;
+      border-radius: 22px;
+      background: rgba(168, 85, 247, 0.16);
+      border: 1.5px solid rgba(216, 180, 254, 0.55);
+      box-shadow:
+        0 0 18px rgba(168, 85, 247, 0.45),
+        inset 0 0 14px rgba(216, 180, 254, 0.2);
+      cursor: pointer;
+      transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .heart-click-box:hover {
+      transform: scale(1.08);
+      background: rgba(186, 104, 255, 0.26);
+      box-shadow:
+        0 0 26px rgba(192, 132, 252, 0.75),
+        inset 0 0 18px rgba(233, 213, 255, 0.35);
+    }
+
+    .heart-click-box:active {
+      transform: scale(0.96);
+    }
+
+    .heart-click-box .glow-heart {
+      margin-top: 0;
+    }
+
+    .heart-prompt-text {
+      margin: 14px auto 0;
+      max-width: min(90vw, 520px);
+      font-size: clamp(1rem, 2.6vw, 1.25rem);
+      line-height: 1.6;
+      font-weight: 600;
+      color: #f3d9ff;
+      text-shadow: 0 0 12px rgba(192, 108, 255, 0.75);
+    }
+
+    .hope-message-text {
+      margin: 10px auto 0;
+      max-width: min(88vw, 480px);
+      font-size: clamp(0.95rem, 2.4vw, 1.18rem);
+      line-height: 1.65;
+      color: #e9d5ff;
+      text-shadow: 0 0 10px rgba(155, 65, 255, 0.55);
+    }
+
+    /* អក្សរនៅពីក្រោមបាច់ផ្កា និងស្រោមសំបុត្រ */
+    .below-bouquet-text {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(6px, 2vh, 22px);
+      transform: translateX(-50%);
+      z-index: 9;
+      width: max-content;
+      max-width: 92vw;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(18, 9, 36, 0.65);
+      border: 1px solid rgba(249, 168, 212, 0.45);
+      color: #fbcfe8;
+      font-size: clamp(0.88rem, 2.3vw, 1.08rem);
+      font-weight: 600;
+      text-align: center;
+      text-shadow: 0 0 12px rgba(244, 114, 182, 0.75);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Intro Screen: TAP TO OPEN -->
+  <div id="intro-screen" class="intro-screen" role="button" tabindex="0" aria-label="Tap to open">
+    <div class="intro-content">
+      <p class="tap-text">TAP TO OPEN</p>
+
+      <div id="heart-action-box" class="heart-click-box" role="button" tabindex="0" aria-label="សូមចុចលើរូប បេះដូងដើម្បីបើកកាដូររបស់អ្នក♾️🎁">
+        <div class="glow-heart" aria-hidden="true">💜</div>
+      </div>
+
+      <p class="heart-prompt-text">សូមចុចលើរូប បេះដូងដើម្បីបើកកាដូររបស់អ្នក♾️🎁</p>
+      <p class="hope-message-text">បងសង្ឃឹមថ្ងៃណាមួយអូន ចន្ធី ~ នាង និងស្រឡាញ់បង 💖🫶</p>
+    </div>
+  </div>
+
+  <!-- Main Scene -->
+  <main id="scene" class="scene hidden">
+    <canvas id="sky-canvas"></canvas>
+
+    <h1 class="title">Flowers For You</h1>
+
+    <!-- Bouquet & Interactive Envelope -->
+    <div class="bouquet-stage">
+      <!-- Growing Stems & Blooming Purple Tulips -->
+      <div class="flowers-group" id="flowers-group">
+        <!-- Tulip 1 (Left) -->
+        <div class="tulip tulip-1">
+          <div class="stem"></div>
+          <div class="leaf leaf-left"></div>
+          <div class="tulip-head">
+            <span class="petal petal-back"></span>
+            <span class="petal petal-left"></span>
+            <span class="petal petal-right"></span>
+            <span class="petal petal-front"></span>
+          </div>
+        </div>
+
+        <!-- Tulip 2 (Inner Left) -->
+        <div class="tulip tulip-2">
+          <div class="stem"></div>
+          <div class="tulip-head">
+            <span class="petal petal-back"></span>
+            <span class="petal petal-left"></span>
+            <span class="petal petal-right"></span>
+            <span class="petal petal-front"></span>
+          </div>
+        </div>
+
+        <!-- Tulip 3 (Center Tall) -->
+        <div class="tulip tulip-3">
+          <div class="stem"></div>
+          <div class="leaf leaf-right"></div>
+          <div class="tulip-head">
+            <span class="petal petal-back"></span>
+            <span class="petal petal-left"></span>
+            <span class="petal petal-right"></span>
+            <span class="petal petal-front"></span>
+          </div>
+        </div>
+
+        <!-- Tulip 4 (Inner Right) -->
+        <div class="tulip tulip-4">
+          <div class="stem"></div>
+          <div class="tulip-head">
+            <span class="petal petal-back"></span>
+            <span class="petal petal-left"></span>
+            <span class="petal petal-right"></span>
+            <span class="petal petal-front"></span>
+          </div>
+        </div>
+
+        <!-- Tulip 5 (Right) -->
+        <div class="tulip tulip-5">
+          <div class="stem"></div>
+          <div class="leaf leaf-right"></div>
+          <div class="tulip-head">
+            <span class="petal petal-back"></span>
+            <span class="petal petal-left"></span>
+            <span class="petal petal-right"></span>
+            <span class="petal petal-front"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Purple Folded Bouquet Wrapper -->
+      <div class="bouquet-wrapper">
+        <div class="wrapper-back"></div>
+        <div class="wrapper-left"></div>
+        <div class="wrapper-right"></div>
+        <div class="wrapper-front"></div>
+        <div class="ribbon-bow">
+          <span class="bow-loop left"></span>
+          <span class="bow-loop right"></span>
+          <span class="bow-knot"></span>
+          <span class="bow-tail left"></span>
+          <span class="bow-tail right"></span>
+        </div>
+      </div>
+
+      <!-- Pink Envelope Button -->
+      <button id="envelope-btn" class="envelope-btn" type="button" aria-label="Open love letter">
+        <span class="envelope-flap"></span>
+        <span class="envelope-heart">♥</span>
+      </button>
+
+      <!-- អក្សរពីក្រោមបាច់ផ្កា និងស្រោមសំបុត្រ -->
+      <p class="below-bouquet-text" onclick="document.getElementById('envelope-btn')?.click()">
+        ចុចលើសំបុណ្យកាដូររបស់អ្នក 🎁
+      </p>
+    </div>
+
+    <!-- Love Letter Modal Card -->
+    <div id="letter-backdrop" class="letter-backdrop hidden" aria-hidden="true">
+      <article id="letter-card" class="letter-card" role="dialog" aria-modal="true" aria-labelledby="letter-heading">
+        <div class="letter-inner">
+          <h2 id="letter-heading" class="letter-heading">Dear Love Chanthy ~ Neang</h2>
+          <p class="letter-message">
+            Today is not a special date, but for me it is a unique day.
+          </p>
+
+          <!-- Cute Bear & Panda Hugging Illustration with Floating Hearts -->
+          <div class="hug-illustration" aria-hidden="true">
+            <span class="floating-heart fh-1">♥</span>
+            <span class="floating-heart fh-2">♥</span>
+            <span class="floating-heart fh-3">♥</span>
+
+            <svg viewBox="0 0 220 130" class="characters-svg">
+              <!-- Brown Bear (Left) -->
+              <g class="bear-group">
+                <circle cx="64" cy="34" r="11" fill="#8d5524" />
+                <circle cx="64" cy="34" r="6" fill="#c68642" />
+                <circle cx="102" cy="34" r="11" fill="#8d5524" />
+                <circle cx="102" cy="34" r="6" fill="#c68642" />
+                <ellipse cx="83" cy="56" rx="26" ry="23" fill="#a46832" />
+                <ellipse cx="83" cy="62" rx="11" ry="8" fill="#e0ac69" />
+                <circle cx="74" cy="53" r="3" fill="#2b1b10" />
+                <circle cx="92" cy="53" r="3" fill="#2b1b10" />
+                <circle cx="83" cy="60" r="3.5" fill="#2b1b10" />
+                <path d="M78 65 Q83 70 88 65" stroke="#2b1b10" stroke-width="2" fill="none" stroke-linecap="round" />
+                <!-- Body & Hugging Arm -->
+                <ellipse cx="84" cy="96" rx="24" ry="24" fill="#a46832" />
+                <ellipse cx="84" cy="98" rx="14" ry="15" fill="#e0ac69" />
+                <path d="M102 84 Q122 88 124 98" stroke="#8d5524" stroke-width="11" stroke-linecap="round" fill="none" />
+                <ellipse cx="68" cy="118" rx="10" ry="7" fill="#8d5524" />
+                <ellipse cx="98" cy="118" rx="10" ry="7" fill="#8d5524" />
+              </g>
+
+              <!-- White Panda (Right) -->
+              <g class="panda-group">
+                <circle cx="122" cy="35" r="10" fill="#2b2d42" />
+                <circle cx="158" cy="35" r="10" fill="#2b2d42" />
+                <ellipse cx="140" cy="57" rx="25" ry="22" fill="#ffffff" stroke="#d8dde6" stroke-width="1.5" />
+                <!-- Eye Patches -->
+                <ellipse cx="131" cy="54" rx="6.5" ry="8" transform="rotate(-15 131 54)" fill="#2b2d42" />
+                <ellipse cx="149" cy="54" rx="6.5" ry="8" transform="rotate(15 149 54)" fill="#2b2d42" />
+                <circle cx="132" cy="53" r="2.2" fill="#ffffff" />
+                <circle cx="148" cy="53" r="2.2" fill="#ffffff" />
+                <ellipse cx="140" cy="61" rx="3.5" ry="2.5" fill="#2b2d42" />
+                <path d="M135 66 Q140 70 145 66" stroke="#2b2d42" stroke-width="2" fill="none" stroke-linecap="round" />
+                <!-- Body & Hugging Arm -->
+                <ellipse cx="138" cy="96" rx="23" ry="23" fill="#ffffff" stroke="#d8dde6" stroke-width="1.5" />
+                <ellipse cx="138" cy="98" rx="13" ry="14" fill="#f3f5f8" />
+                <path d="M120 85 Q102 90 100 100" stroke="#2b2d42" stroke-width="10" stroke-linecap="round" fill="none" />
+                <ellipse cx="124" cy="118" rx="10" ry="7" fill="#2b2d42" />
+                <ellipse cx="152" cy="118" rx="10" ry="7" fill="#2b2d42" />
+              </g>
+            </svg>
+          </div>
+
+          <p class="letter-footer">I like you just the way you are. Happy month.</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
